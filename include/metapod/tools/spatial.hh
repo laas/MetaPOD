@@ -18,14 +18,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with metapod.  If not, see <http://www.gnu.org/licenses/>.(2);
 
-/*
- * Implementation of a spatial algebra.
- * It follows R. Featherstone guidelines, and implements :
- * - Spatial Motion vectors
- * - Spatial Force vectors
- * - Spatial Rigid Body Inertia matrices
- * - Spatial Transforms
- */
 
 #ifndef METAPOD_SPATIAL_ALGEBRA_HH
 # define METAPOD_SPATIAL_ALGEBRA_HH
@@ -37,6 +29,15 @@ namespace metapod
 
   namespace Spatial
   {
+    /**
+     *
+     * Implementation of a spatial algebra.
+     * It follows R. Featherstone guidelines, and implements :
+     * - Spatial Motion vectors (a.k.a. twists)
+     * - Spatial Force vectors (a.k.a. wrenches)
+     * - Spatial Rigid Body Inertia matrices
+     * - Spatial Transforms (a.k.a. homogeneous matrices, elements of SE(3))
+     */
 
     // Tool methods
     inline matrix3d skew(const vector3d & v)
@@ -76,7 +77,7 @@ namespace metapod
         {
           m_n = v.segment<3>(0);
           m_f = v.segment<3>(3);
-          return *this; 
+          return *this;
         }
 
         Force operator+(const Force & fv) const
@@ -253,6 +254,15 @@ namespace metapod
         matrix3d m_I;
     };
 
+    // Given two frames a and b, one can define the transform bXa, which
+    // changes coordinates between the two. bXa is composed of a rotation
+    // matrix E, which changes vector coordinates from a to b, and a vector
+    // r, which gives the position of the origin of b, expressed in the a
+    // frame.
+    // So if v is a vector and p is a point, we have:
+    //
+    //   vb = bXa.E * va
+    //   pb = bXa.E * (pa - bXa.r)
     class Transform
     {
       public:
