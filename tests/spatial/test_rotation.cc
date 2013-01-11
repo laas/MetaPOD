@@ -12,10 +12,10 @@ using namespace metapod::Spatial;
 using namespace std;
 
 void display(Matrix3d &A,
-	     Matrix3d &B,
-	     Matrix3d &C,
-	     Matrix3d &D,
-	     std::string &operation)
+             Matrix3d &B,
+             Matrix3d &C,
+             Matrix3d &D,
+             std::string &operation)
 {
   cout << "Operands:" << endl;
   cout << A << endl;
@@ -28,7 +28,7 @@ void display(Matrix3d &A,
 }
 
 void check(Matrix3d &C,
-	   Matrix3d &D)
+           Matrix3d &D)
 {
   Matrix3d diff_checkd_d3d = C - D;
   // Compute the norm of the difference.
@@ -38,10 +38,10 @@ void check(Matrix3d &C,
 }
 
 void displayAndCheck(Matrix3d &A,
-		     Matrix3d &B,
-		     Matrix3d &C,
-		     Matrix3d &D,
-		     std::string &operation)
+                     Matrix3d &B,
+                     Matrix3d &C,
+                     Matrix3d &D,
+                     std::string &operation)
 {
   display(A,B,C,D,operation);
   check(C,D);
@@ -73,7 +73,7 @@ void test_general_matrix(Matrix3d & aI)
   T aRMA;
 
   aRMA.randomInit();
-    
+
   Matrix3d R = aRMA.toMatrix();
 
   Matrix3d d;
@@ -119,49 +119,50 @@ void test_multiplication(Matrix3d & aI)
 }
 
 template <class T,
-	  class TZ=T>
-void test_mul_matrix_about()
+          class TZ=T>
+struct test_mul_matrix_about
 {
-  T X,Y;
-  TZ Z;
-  RotationMatrix rmX,rmY,rmZ;
-  Matrix3d mX, mY,mZ, R;
+  static void run()
+  {
+    T X,Y;
+    TZ Z;
+    RotationMatrix rmX,rmY,rmZ;
+    Matrix3d mX, mY,mZ, R;
 
-  X.randomInit();
-  Y.randomInit();
-  
-  // Test RotationMatrixAboutX * RotationMatrixAboutX
-  Z = X*Y;
-  
-  mX = X.toMatrix();
-  mY = Y.toMatrix();
-  mZ = Z.toMatrix();
-  R = mX * mY;
+    X.randomInit();
+    Y.randomInit();
 
-  std::string opName;
-  opName = typeid(T).name();
+    // Test RotationMatrixAboutX * RotationMatrixAboutX
+    Z = X*Y;
 
-  displayAndCheck(mX,mY,mZ,R,opName);
+    mX = X.toMatrix();
+    mY = Y.toMatrix();
+    mZ = Z.toMatrix();
+    R = mX * mY;
 
-  // Test RotationMatrixAboutX * RotationMatrix
-  rmY.randomInit();
-  mY = rmY.toMatrix();
-  rmZ = X*rmY;
-  
-  mZ = rmZ.toMatrix();
-  R = mX * mY;
-  opName = "RotationMatrix";
-  displayAndCheck(mX,mY,mZ,R,opName);
-  
-}
+    std::string opName;
+    opName = typeid(T).name();
 
-							
+    displayAndCheck(mX,mY,mZ,R,opName);
+
+    // Test RotationMatrixAboutX * RotationMatrix
+    rmY.randomInit();
+    mY = rmY.toMatrix();
+    rmZ = X*rmY;
+
+    mZ = rmZ.toMatrix();
+    R = mX * mY;
+    opName = "RotationMatrix";
+    displayAndCheck(mX,mY,mZ,R,opName);
+  }
+};
+
 BOOST_AUTO_TEST_CASE(test_rotation)
 {
   Matrix3d I;
   I << 0.00285998, -0.00001434,-0.00055582,
-    -0.00001434, 0.00352974, 0.00000884,
-    -0.00055582, 0.00000885, 0.00145427;
+      -0.00001434, 0.00352974, 0.00000884,
+      -0.00055582, 0.00000885, 0.00145427;
   cout << I << endl;
   struct ltI altI(I);
 
@@ -184,8 +185,8 @@ BOOST_AUTO_TEST_CASE(test_rotation)
   cout << " ************** TEST R^T*A*R ************** " << endl;
   Matrix3d NotSymmetrical;
   NotSymmetrical << 0.1, 0.5, 0.4,
-    0.1, 0.2, 0.3,
-    0.5, 0.4, 0.1 ;
+      0.1, 0.2, 0.3,
+      0.5, 0.4, 0.1 ;
   cout << NotSymmetrical << endl;
 
   cout << "NotSymmetrical: Test X Rotation" << endl;
@@ -222,10 +223,10 @@ BOOST_AUTO_TEST_CASE(test_rotation)
   test_multiplication<RotationMatrix>(randomRM);
   test_multiplication<RotationMatrixChangeAxis<PermuYXmZ> >(randomRM);
 
-  test_mul_matrix_about<RotationMatrixAboutX>();
-  test_mul_matrix_about<RotationMatrixAboutY>();
-  test_mul_matrix_about<RotationMatrixAboutZ>();
+  test_mul_matrix_about<RotationMatrixAboutX>::run();
+  test_mul_matrix_about<RotationMatrixAboutY>::run();
+  test_mul_matrix_about<RotationMatrixAboutZ>::run();
   test_mul_matrix_about<RotationMatrixChangeAxis<PermuYXmZ>,
-    RotationMatrixChangeAxis<GbToId>>();
+      RotationMatrixChangeAxis<GbToId> >::run();
   
 }
