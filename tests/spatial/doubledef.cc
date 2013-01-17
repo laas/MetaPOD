@@ -1,4 +1,4 @@
-// Copyright 2012,
+// Copyright 2013
 //
 // Sébastien Barthélémy (Aldebaran Robotics)
 //
@@ -11,24 +11,13 @@
 // metapod is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
+// GNU General Lesser Public License for more details.
 // You should have received a copy of the GNU Lesser General Public License
-// along with metapod.  If not, see <http://www.gnu.org/licenses/>.
+// along with metapod. If not, see <http://www.gnu.org/licenses/>.
 
-// This (smoke) test runs printStat on the model. Since the model is not
-// initialized, the output is discarded. So we only check that printState
-// builds and runs smoothly.
+#include <metapod/tools/spatial.hh>
 
-// Common test tools
-#include "common.hh"
-#include <metapod/tools/print.hh>
-
-using namespace metapod;
-using namespace CURRENT_MODEL_NAMESPACE;
-
-BOOST_AUTO_TEST_CASE (test_printstate)
+bool dummy()
 {
-  std::ofstream state_log("state.log", std::ofstream::out);
-  printState<Robot>(state_log);
-  state_log.close();
+  return true;
 }
