@@ -44,7 +44,7 @@ ENDIF()
 # we do not control very well. Moreover, when cross-compiling, we typically do
 # not want to run it on the target, but on the build host. Hence we provide
 # support for finding binary version.
-
+add_definitions(-DEIGEN_INITIALIZE_MATRICES_BY_NAN)
 # by default, we build metapodfromurdf if we detect ros
 FIND_PROGRAM(ROSPACK_EXECUTABLE rospack)
 IF(ROSPACK_EXECUTABLE)
