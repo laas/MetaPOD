@@ -46,6 +46,38 @@ struct TestTransform
     TransformT<FloatType, typename rm_mul_op<FloatType, RotationClass, RotationMatrixIdentity >::rm > sXp;
     sXp = Xj *Xt;
     std::cout  << sXp << std::endl;
+
+    Force f;
+    Xj.apply(f);
+    Xj.applyInv(f);
+    Xt.apply(f);
+    Xt.applyInv(f);
+    sXp.apply(f);
+    sXp.applyInv(f);
+
+    Motion m;
+    Xj.apply(m);
+    Xj.applyInv(m);
+    Xt.apply(m);
+    Xt.applyInv(m);
+    sXp.apply(m);
+    sXp.applyInv(m);
+
+    Inertia I;
+    Xj.apply(I);
+    Xj.applyInv(I);
+    Xt.apply(I);
+    Xt.applyInv(I);
+    sXp.apply(I);
+    sXp.applyInv(I);
+
+    Vector3d v;
+    Xj.apply(v);
+    Xj.applyInv(v);
+    Xt.apply(v);
+    Xt.applyInv(v);
+    sXp.apply(v);
+    sXp.applyInv(v);
   }
 };
 

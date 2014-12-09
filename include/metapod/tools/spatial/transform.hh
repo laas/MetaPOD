@@ -74,13 +74,13 @@ class TransformT_helper
   Motion apply(const Motion & mv) const
   {
     return Motion(m_E * mv.w(),
-                             m_E * (mv.v() - m_r.cross(mv.w())));
+                             m_E * (mv.v() - m_r.cross(mv.w())).eval());
   }
 
   /// Fb = bXa.apply(Fa)
   Force apply(const Force & fv) const
   {
-    return Force(m_E*(fv.n() - m_r.cross(fv.f())), m_E*fv.f());
+    return Force(m_E*(fv.n() - m_r.cross(fv.f())).eval(), m_E*fv.f());
   }
 
   /// Ib = bXa.apply(Ia)
